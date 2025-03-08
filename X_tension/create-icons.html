@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Generate Icons</title>
+</head>
+<body>
+    <h1>Icon Generator for Extension</h1>
+    <p>Click the button below to generate icon files for your extension.</p>
+    <button id="generateBtn">Generate Icons</button>
+    
+    <div style="margin-top: 20px;">
+        <canvas id="canvas16" width="16" height="16"></canvas>
+        <canvas id="canvas48" width="48" height="48"></canvas>
+        <canvas id="canvas128" width="128" height="128"></canvas>
+    </div>
+    
+    <script>
+        document.getElementById('generateBtn').addEventListener('click', function() {
+            // Generate 16x16 icon
+            generateIcon('canvas16', 16);
+            // Generate 48x48 icon
+            generateIcon('canvas48', 48);
+            // Generate 128x128 icon
+            generateIcon('canvas128', 128);
+        });
+        
+        function generateIcon(canvasId, size) {
+            const canvas = document.getElementById(canvasId);
+            const ctx = canvas.getContext('2d');
+            
+            // Set background
+            ctx.fillStyle = '#4CAF50';
+            ctx.fillRect(0, 0, size, size);
+            
+            // Draw a microphone symbol
+            ctx.fillStyle = 'white';
+            const centerX = size / 2;
+            const centerY = size / 2;
+            const micWidth = size * 0.4;
+            const micHeight = size * 0.6;
+            
+            // Mic body
+            ctx.fillRect(centerX - micWidth/2, centerY - micHeight/2, micWidth, micHeight);
+            
+            // Mic top (rounded)
+            ctx.beginPath();
+            ctx.arc(centerX, centerY - micHeight/2, micWidth/2, 0, Math.PI, true);
+            ctx.fill();
+            
+            // Mic stand
+            ctx.fillRect(centerX - micWidth/6, centerY + micHeight/2, micWidth/3, micHeight/3);
+            
+            // Mic base
+            ctx.fillRect(centerX - micWidth/2, centerY + micHeight/2 + micHeight/3, micWidth, micWidth/4);
+            
+            // Download the icon
+            const link = document.createElement('a');
+            link.download = `mic-icon-${size}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        }
+    </script>
+</body>
+</html>
